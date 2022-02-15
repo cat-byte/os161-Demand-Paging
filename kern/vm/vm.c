@@ -377,6 +377,7 @@ vm_fault(int faulttype, vaddr_t faultaddress)
 				bzero((void *)faultaddress, PAGE_SIZE);
 				
 				if(seg->offset < 0){ 			// segmento di stack. Non c'è da fare nessun caricamento
+					cm_update_state(paddr, CLEAN);
 					tlbW(faultaddress, paddr, seg->permission->write);
 					vmstats_inc(PAGE_FAULT_ZERO);	// contatore dei frame azzerati e non caricati da disco
 					return 0;
